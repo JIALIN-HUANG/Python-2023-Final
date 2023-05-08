@@ -21,3 +21,4 @@ if st.button('Search Wikipedia'):
     response = requests.get(wiki_url, params=wiki_params)
 
     data = response.json()
+    st.write(data['query']['search'][0])

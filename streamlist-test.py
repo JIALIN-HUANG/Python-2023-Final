@@ -6,7 +6,7 @@ import streamlit as st
 wiki_url = 'https://en.wikipedia.org/w/api.php'
 
 # search - present Python final
-search_term = st.text_input('Enter a search term, I will generate a random Wikipedia definition for you', 'Python Final')
+search_term = st.text_input('Enter a search term, I will generate a random Wikipedia definition for you')
 
 # Create a button
 if st.button('Search Wikipedia'):

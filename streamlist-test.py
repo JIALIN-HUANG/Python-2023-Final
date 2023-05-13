@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 import random
 import streamlit as st
 
@@ -7,7 +6,7 @@ import streamlit as st
 wiki_url = 'https://en.wikipedia.org/w/api.php'
 
 # search - present Python final
-search_term = st.text_input('Enter a search term', 'Python Final')
+search_term = st.text_input('Enter a search term, I will generate a random Wikipedia definition for you', 'Python Final')
 
 # Create a button
 if st.button('Search Wikipedia'):
@@ -29,10 +28,12 @@ if st.button('Search Wikipedia'):
     random_result = random.choice(search_results)
 
     # Remove HTML tags from the snippet
-    soup = BeautifulSoup(random_result['snippet'], 'html.parser')
-    snippet_text = soup.get_text()
+    snippet_text = random_result['snippet'].replace('<span class="searchmatch">', '').replace('</span>', '')
+
+    date_str, time_str = random_result['timestamp'].split('T')
+    time_str = time_str[:-1]  # Remove Z
 
     # Print the desired information
-    st.write('Title:', random_result['title'])
-    st.write('Snippet:', snippet_text)
-    st.write('Timestamp:', random_result['timestamp'])
+    st.write(f"<p align-items: right;>{date_str} {time_str}</p>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='font-family: Helvetica, Arial, sans-serif; font-size: 48px; font-style: normal; font-variant: normal; font-weight: 700;'>{random_result['title']}</h2>", unsafe_allow_html=True)
+    st.write(snippet_text)

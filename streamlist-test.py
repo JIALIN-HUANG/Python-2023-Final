@@ -1,4 +1,6 @@
 import requests
+from bs4 import BeautifulSoup
+import random
 import streamlit as st
 
 # Wikipedia API base URL
@@ -21,4 +23,16 @@ if st.button('Search Wikipedia'):
     response = requests.get(wiki_url, params=wiki_params)
 
     data = response.json()
-    st.write(data['query']['search'][0])
+    search_results = data['query']['search']
+    
+    # Select a random search result
+    random_result = random.choice(search_results)
+
+    # Remove HTML tags from the snippet
+    soup = BeautifulSoup(random_result['snippet'], 'html.parser')
+    snippet_text = soup.get_text()
+
+    # Print the desired information
+    st.write('Title:', random_result['title'])
+    st.write('Snippet:', snippet_text)
+    st.write('Timestamp:', random_result['timestamp'])

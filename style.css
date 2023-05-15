@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'InputMonoNarrow';
+    src: url('InputMonoNarrow-Regular.ttf') format('truetype');
+}
+
+div.search-result {
+    background-color: hsl(0, 0%, 15%);
+    color: white;
+    border: 2px solid #CCCCCC;
+    padding: 8%;
+    border-radius: 5px;
+    font-family: 'InputMonoNarrow', monospace;
+}
+
+.search-box {
+    background-color: hsl(0, 0%, 15%);
+    color: white;
+    /* padding: 2%; */
+    height: 85px;
+    font-family: 'InputMonoNarrow', monospace;
+    margin-bottom: 20px;
+  }
+
+.userInput {
+    padding: 3%;
+    margin-top: 10px;
+    font-size: 2rem;
+    text-align: center; !important
+}

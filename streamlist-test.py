@@ -8,8 +8,20 @@ wiki_url = 'https://en.wikipedia.org/w/api.php'
 # search - present Python final
 search_term = st.text_input('Enter a search term, I will generate a random Wikipedia definition for you')
 
+# Copy code from Youtube Video: https://www.youtube.com/watch?v=gr_KyGfO_eU
+# CSS style sheet use in Streamlit
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Create a SessionState object to store persistent values
+session_state = st.session_state
+
+# Initialize search_results if it doesn't exist in session_state
+if 'search_results' not in session_state:
+    session_state.search_results = []
+
 # Create a button
-if st.button('Search Wikipedia'):
+if st.button('Search'):
     # Wiki input: https://en.wikipedia.org/api/rest_v1/#/
     wiki_params = {
         'action': 'query',
@@ -17,23 +29,25 @@ if st.button('Search Wikipedia'):
         'list': 'search',
         'srsearch': search_term
     }
-
-    # Query the Wikipedia API and get the response
     response = requests.get(wiki_url, params=wiki_params)
 
     data = response.json()
-    search_results = data['query']['search']
+    session_state.search_results = data['query']['search']
     
     # Select a random search result
-    random_result = random.choice(search_results)
+    random_result = random.choice(session_state.search_results)
+    # user input
+    if session_state.search_results:
+        st.markdown(
+            f"<div class='search-box'><p class='userInput'>User Input: {search_term}</p></div>",
+            unsafe_allow_html=True
+        )
 
-    # Remove HTML tags from the snippet
+    # Remove HTML tags
     snippet_text = random_result['snippet'].replace('<span class="searchmatch">', '').replace('</span>', '')
 
     date_str, time_str = random_result['timestamp'].split('T')
     time_str = time_str[:-1]  # Remove Z
 
-    # Print the desired information
-    st.write(f"<p align-items: right;>{date_str} {time_str}</p>", unsafe_allow_html=True)
-    st.markdown(f"<h2 style='font-family: Helvetica, Arial, sans-serif; font-size: 48px; font-style: normal; font-variant: normal; font-weight: 700;'>{random_result['title']}</h2>", unsafe_allow_html=True)
-    st.write(snippet_text)
+    # Print the desired information wrapped in a div with the class 'search-result'
+    st.markdown(f"<div class='search-result'><p>{date_str} {time_str}</p><h2 style='font-family: InputMonoNarrow; color: white; font-size: 28px; font-style: normal;'>{random_result['title']}</h2>{snippet_text}</div>", unsafe_allow_html=True)

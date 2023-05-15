@@ -10,6 +10,7 @@ div.search-result {
     padding: 8%;
     border-radius: 5px;
     font-family: 'InputMonoNarrow', monospace;
+    margin-bottom: 20px;
 }
 
 .search-box {

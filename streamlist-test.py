@@ -50,4 +50,17 @@ if st.button('Search'):
     time_str = time_str[:-1]  # Remove Z
 
     # Print the desired information wrapped in a div with the class 'search-result'
-    st.markdown(f"<div class='search-result'><p>{date_str} {time_str}</p><h2 style='font-family: InputMonoNarrow; color: white; font-size: 28px; font-style: normal;'>{random_result['title']}</h2>{snippet_text}</div>", unsafe_allow_html=True)
+    result_string = f"<div class='search-result'><p>{date_str} {time_str}</p><h2 style='font-family: InputMonoNarrow; color: white; font-size: 28px; font-style: normal;'>{random_result['title']}</h2>{snippet_text}</div>"
+    st.markdown(result_string, unsafe_allow_html=True)
+
+    # Save the result to an txt file
+    #refrence from: https://stackoverflow.com/questions/25023233/how-to-save-python-screen-output-to-a-text-file
+    text_result_string = f"Date: {date_str} {time_str}\nTitle: {random_result['title']}\nSnippet: {snippet_text}"
+
+    # Create a button
+    st.download_button(
+        label="Save this result !",
+        data=text_result_string,
+        file_name="wikipedia_search_result.txt",
+        mime="text/plain"
+    )

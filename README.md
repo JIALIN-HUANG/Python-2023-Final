@@ -5,3 +5,5 @@ My project is a language-based generative experiment aimed at challenging the li
 
 To run this code please enter: streamlit run streamlist-test.py
 in your Terminal
+
+Or you can just direct visit the website: https://jialin-huang-python-2023-final-streamlist-test-oof3x7.streamlit.app
